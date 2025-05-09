@@ -7,7 +7,6 @@ import ReactFlow, {
 	Controls,
 	MiniMap,
 } from "react-flow-renderer";
-import { Vertex, Edge } from "@/types";
 import { createGraph, bfs, dfs, astar, greedyBestFirst } from "@/utils";
 import { edges, goalVertex, startVertex, vertices } from "@/constants";
 

@@ -13,36 +13,40 @@ export function createGraph(vertices: Vertex[], edges: Edge[]): Graph {
 }
 
 // Greedy Best-First Search (uses only heuristic h)
-export function greedyBestFirst(graph: Graph, start: string, goal: string): string[] {
-  const visited = new Set<string>();
-  const cameFrom = new Map<string, string>();
-  const open = new Set<string>([start]);
+export function greedyBestFirst(
+	graph: Graph,
+	start: string,
+	goal: string
+): string[] {
+	const visited = new Set<string>();
+	const cameFrom = new Map<string, string>();
+	const open = new Set<string>([start]);
 
-  while (open.size) {
-    // pick node in open with lowest heuristic
-    let current = Array.from(open).reduce((a, b) => {
-      const ha = graph.vertices.get(a)!.h ?? Infinity;
-      const hb = graph.vertices.get(b)!.h ?? Infinity;
-      return ha < hb ? a : b;
-    });
-    if (current === goal) {
-      const path: string[] = [];
-      while (current) {
-        path.unshift(current);
-        current = cameFrom.get(current)!;
-      }
-      return path;
-    }
-    open.delete(current);
-    visited.add(current);
-    for (const e of graph.edges.get(current) || []) {
-      if (!visited.has(e.to)) {
-        cameFrom.set(e.to, current);
-        open.add(e.to);
-      }
-    }
-  }
-  return [];
+	while (open.size) {
+		// pick node in open with lowest heuristic
+		let current = Array.from(open).reduce((a, b) => {
+			const ha = graph.vertices.get(a)!.h ?? Infinity;
+			const hb = graph.vertices.get(b)!.h ?? Infinity;
+			return ha < hb ? a : b;
+		});
+		if (current === goal) {
+			const path: string[] = [];
+			while (current) {
+				path.unshift(current);
+				current = cameFrom.get(current)!;
+			}
+			return path;
+		}
+		open.delete(current);
+		visited.add(current);
+		for (const e of graph.edges.get(current) || []) {
+			if (!visited.has(e.to)) {
+				cameFrom.set(e.to, current);
+				open.add(e.to);
+			}
+		}
+	}
+	return [];
 }
 
 // BFS
